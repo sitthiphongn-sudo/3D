@@ -1,0 +1,26 @@
+[gd_scene load_steps=5 format=3]
+
+[ext_resource type="Script" path="res://Scripts/Hazard.gd" id="1_s"]
+[ext_resource type="Script" path="res://Scripts/Spinner.gd" id="2_spin"]
+[ext_resource type="PackedScene" path="res://Assets/Models/Props/Saw_Blade.glb" id="3_m"]
+
+[sub_resource type="CylinderShape3D" id="CylinderShape3D_h"]
+height = 0.4
+radius = 0.95
+
+[node name="SawBlade" type="Area3D" groups=["Hazard"]]
+monitorable = false
+script = ExtResource("1_s")
+
+[node name="Spin" type="Node3D" parent="."]
+script = ExtResource("2_spin")
+spin_speed = 300.0
+
+[node name="Visual" parent="Spin" instance=ExtResource("3_m")]
+transform = Transform3D(0.7, 0, 0, 0, 0.7, 0, 0, 0, 0.7, 0, 0, 0)
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, -4.37114e-08, -1, 0, 1, -4.37114e-08, 0, 0, 0)
+shape = SubResource("CylinderShape3D_h")
+
+[connection signal="body_entered" from="." to="." method="_on_body_entered"]

@@ -1,0 +1,16 @@
+[gd_scene load_steps=3 format=3]
+
+[ext_resource type="Script" path="res://Scripts/DeadZone.gd" id="1_s"]
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_d"]
+size = Vector3(600, 300, 600)
+
+[node name="DeadZone" type="Area3D"]
+monitorable = false
+script = ExtResource("1_s")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -150, 0)
+shape = SubResource("BoxShape3D_d")
+
+[connection signal="body_entered" from="." to="." method="_on_body_entered"]

@@ -1,0 +1,37 @@
+[gd_scene load_steps=6 format=3]
+
+[ext_resource type="Script" path="res://Scripts/Pendulum.gd" id="1_p"]
+[ext_resource type="Script" path="res://Scripts/Hazard.gd" id="2_h"]
+[ext_resource type="PackedScene" path="res://Assets/Models/Props/Spiky_Ball.glb" id="3_m"]
+
+[sub_resource type="SphereShape3D" id="SphereShape3D_h"]
+radius = 0.62
+
+[sub_resource type="CylinderMesh" id="CylinderMesh_rope"]
+top_radius = 0.04
+bottom_radius = 0.04
+height = 4.0
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_rope"]
+albedo_color = Color(0.25, 0.2, 0.15, 1)
+
+[node name="SpikyBall" type="Node3D"]
+script = ExtResource("1_p")
+
+[node name="Rope" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -2, 0)
+mesh = SubResource("CylinderMesh_rope")
+material_override = SubResource("StandardMaterial3D_rope")
+
+[node name="Ball" type="Area3D" parent="." groups=["Hazard"]]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -4, 0)
+monitorable = false
+script = ExtResource("2_h")
+
+[node name="Visual" parent="Ball" instance=ExtResource("3_m")]
+transform = Transform3D(0.95, 0, 0, 0, 0.95, 0, 0, 0, 0.95, 0, 0, 0)
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Ball"]
+shape = SubResource("SphereShape3D_h")
+
+[connection signal="body_entered" from="Ball" to="Ball" method="_on_body_entered"]

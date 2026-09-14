@@ -1,0 +1,21 @@
+[gd_scene load_steps=5 format=3]
+
+[ext_resource type="Script" path="res://Scripts/MovingPlatform.gd" id="1_s"]
+[ext_resource type="Material" path="res://Assets/Resources/mat_wood.tres" id="2_mat"]
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_p"]
+size = Vector3(3, 0.4, 3)
+
+[sub_resource type="BoxMesh" id="BoxMesh_p"]
+size = Vector3(3, 0.4, 3)
+
+[node name="MovingPlatform" type="AnimatableBody3D"]
+sync_to_physics = false
+script = ExtResource("1_s")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="."]
+shape = SubResource("BoxShape3D_p")
+
+[node name="Mesh" type="MeshInstance3D" parent="."]
+mesh = SubResource("BoxMesh_p")
+surface_material_override/0 = ExtResource("2_mat")

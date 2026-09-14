@@ -1,0 +1,63 @@
+[gd_scene load_steps=9 format=3]
+
+[ext_resource type="Script" path="res://Scripts/Door.gd" id="1_s"]
+[ext_resource type="Material" path="res://Assets/Resources/mat_temple_red.tres" id="2_red"]
+[ext_resource type="Material" path="res://Assets/Resources/mat_gold.tres" id="3_gold"]
+[ext_resource type="Material" path="res://Assets/Resources/mat_stone_dark.tres" id="4_dark"]
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_trigger"]
+size = Vector3(2.6, 3.4, 1.2)
+
+[sub_resource type="BoxMesh" id="BoxMesh_frame"]
+size = Vector3(0.5, 4.2, 0.7)
+
+[sub_resource type="BoxMesh" id="BoxMesh_top"]
+size = Vector3(4, 0.7, 1.1)
+
+[sub_resource type="BoxMesh" id="BoxMesh_door"]
+size = Vector3(2.6, 3.2, 0.25)
+
+[node name="Door" type="Area3D"]
+monitorable = false
+script = ExtResource("1_s")
+
+[node name="Frames" type="Node3D" parent="."]
+
+[node name="Left" type="MeshInstance3D" parent="Frames"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1.6, 2.1, 0)
+mesh = SubResource("BoxMesh_frame")
+surface_material_override/0 = ExtResource("2_red")
+
+[node name="Right" type="MeshInstance3D" parent="Frames"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1.6, 2.1, 0)
+mesh = SubResource("BoxMesh_frame")
+surface_material_override/0 = ExtResource("2_red")
+
+[node name="Lintel" type="MeshInstance3D" parent="Frames"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 4.45, 0)
+mesh = SubResource("BoxMesh_top")
+surface_material_override/0 = ExtResource("3_gold")
+
+[node name="Locked" type="Node3D" parent="."]
+
+[node name="Slab" type="MeshInstance3D" parent="Locked"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.6, 0)
+mesh = SubResource("BoxMesh_door")
+surface_material_override/0 = ExtResource("4_dark")
+
+[node name="Hint" type="Label3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 5.4, 0)
+pixel_size = 0.007
+billboard = 1
+double_sided = true
+no_depth_test = true
+text = "GATE"
+font_size = 64
+outline_size = 20
+horizontal_alignment = 1
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.7, 0)
+shape = SubResource("BoxShape3D_trigger")
+
+[connection signal="body_entered" from="." to="." method="_on_body_entered"]
